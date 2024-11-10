@@ -11,7 +11,7 @@ Welcome to Hilink – your ultimate companion for exploring nature's untouched b
 - [License](#License)
 
 
-## 🌄 About Hilink
+## 🌄 Project Overview
 
 Hilink is a travel and adventure platform dedicated to helping you navigate and enjoy the great outdoors safely and conveniently. From mountain peaks to lush valleys, Hilink connects climbers worldwide, providing offline mapping, adventure scheduling, and augmented reality for an immersive experience.
 

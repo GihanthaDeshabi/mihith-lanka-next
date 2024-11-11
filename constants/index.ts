@@ -81,5 +81,6 @@ export const NAV_LINKS = [
       '/instagram.svg',
       '/twitter.svg',
       '/youtube.svg',
+        { icon: '/youtube.svg', url: 'https://wa.me/+94703463281' }
     ],
   };

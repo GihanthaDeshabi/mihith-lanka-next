@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Travel',
-  description: 'Travel Web',
+  title: 'Mihith Lanka Tours and Travels',
+  description: 'Amazing experience with sri lankan culture',
 }
 
 export default function RootLayout({

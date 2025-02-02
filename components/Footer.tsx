@@ -1,82 +1,128 @@
-import { FOOTER_CONTACT_INFO, FOOTER_LINKS, SOCIALS } from '@/constants'
-import Image from 'next/image'
-import Link from 'next/link'
-
+"use client";
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="flexCenter mb-24">
-      <div className="padding-container max-container flex w-full flex-col gap-14">
-        <div className="flex flex-col items-start justify-center gap-[10%] md:flex-row">
-          <Link href="/" className="mb-10">
-            <Image src="hilink-logo.svg" alt="logo" width={74} height={29}/>
-          </Link>
+    <footer className="relative text-white">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/21.jpg" 
+          alt="Footer Background" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+      </div>
 
-          <div className='flex flex-wrap gap-10 sm:justify-between md:flex-1'>
-            {FOOTER_LINKS.map((columns) => (
-              <FooterColumn title={columns.title}>
-                <ul className="regular-14 flex flex-col gap-4 text-gray-30">
-                  {columns.links.map((link) => (
-                    <Link href="/" key={link}>
-                      {link}
-                    </Link>
-                  ))}
-                </ul>
-              </FooterColumn>
-            ))}
-
-            <div className="flex flex-col gap-5">
-              <FooterColumn title={FOOTER_CONTACT_INFO.title}>
-                {FOOTER_CONTACT_INFO.links.map((link) => (
-                  <Link
-                    href="/"
-                    key={link.label}
-                    className="flex gap-4 md:flex-col lg:flex-row"
-                  >
-                    <p className="whitespace-nowrap">
-                      {link.label}:
-                    </p>
-                    <p className="medium-14 whitespace-nowrap text-blue-70">
-                      {link.value}
-                    </p>
-                  </Link>
-                ))}
-              </FooterColumn>
+      <div className="relative z-10">
+        {/* Main Footer Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* Company Info */}
+            <div className="gap-10">
+              <h3 className="text-2xl font-medium mb-6">Mihith Lanka Tours & Travels</h3>
+              <p className="text-[#f3f3f3] mb-6">
+                Making your travel dreams come true with unforgettable experiences and 
+                personalized service since 2009.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="hover:text-[#f3f3f3] transition-colors">
+                  <Facebook className="w-6 h-6" />
+                </a>
+                <a href="#" className="hover:text-[#f3f3f3] transition-colors">
+                  <Twitter className="w-6 h-6" />
+                </a>
+                <a href="#" className="hover:text-[#f3f3f3] transition-colors">
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a href="#" className="hover:text-[#f3f3f3] transition-colors">
+                  <Youtube className="w-6 h-6" />
+                </a>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-5">
-              <FooterColumn title={SOCIALS.title}>
-                <ul className="regular-14 flex gap-4 text-gray-30">
-                  {SOCIALS.links.map((link) => (
-                    <Link href="/" key={link}>
-                      <Image src={link} alt="logo" width={24} height={24} />
-                    </Link>
-                  ))}
-                </ul>
-              </FooterColumn>
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+              <ul className="space-y-4">
+                <li>
+                  <a href="#" className="text-[#f3f3f3] hover:text-white transition-colors">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[#f3f3f3] hover:text-white transition-colors">
+                    Our Services
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[#f3f3f3] hover:text-white transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-[#f3f3f3] hover:text-white transition-colors">
+                    Terms & Conditions
+                  </a>
+                </li>
+              </ul>
             </div>
+
+            {/* Contact Info */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6">Contact Us</h4>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <MapPin className="w-5 h-5 mt-1" />
+                  <p className="text-[#f3f3f3]">
+                  Waligama, Matara, Sri Lanka
+                  </p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Phone className="w-5 h-5" />
+                  <p className="text-[#f3f3f3]">+94 77 728 8286</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="w-5 h-5" />
+                  <p className="text-[#f3f3f3]">mihithlankatourstravels@gmail.com</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            {/* <div>
+              <h4 className="text-lg font-semibold mb-6">Newsletter</h4>
+              <p className="text-[#f3f3f3] mb-4">
+                Subscribe to our newsletter for travel tips and exclusive offers
+              </p>
+              <form className="space-y-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 bg-white bg-opacity-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-white text-black py-2 rounded-lg hover:bg-[#f3f3f3] transition-colors duration-300"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div> */}
           </div>
         </div>
 
-        <div className="border bg-gray-20" />
-        <p className="regular-14 w-full text-center text-gray-30">2024 Hilink | All rights reserved</p>
+        {/* Copyright */}
+        <div className="border-t border-white border-opacity-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <p className="text-center text-[#f3f3f3]">
+              © {new Date().getFullYear()} MIHITH LANKA TOURS & TRAVELS. All Rights Reserved | Crafted by Syncos Solutions
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-type FooterColumnProps = {
-  title: string;
-  children: React.ReactNode;
-}
-
-const FooterColumn = ({ title, children }: FooterColumnProps) => {
-  return (
-    <div className="flex flex-col gap-5">
-      <h4 className="bold-18 whitespace-nowrap">{title}</h4>
-      {children}
-    </div>
-  )
-}
-
-export default Footer
+export default Footer;

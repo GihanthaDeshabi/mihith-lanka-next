@@ -1,83 +1,152 @@
-import Image from 'next/image'
-import Button from './Button'
+"use client";
+import { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const Hero = () => {
+const HeroSlider = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const slides = [
+    {
+      image: "/9.jpg",
+      subtitle: "Sacred & Serene",
+      title: "Journey into the Heart of Buddhist Heritage",
+      text: "Explore ancient temples and immerse yourself in the tranquility of Sri Lanka's Buddhist culture.",
+      buttonText: "Discover the Sacred",
+    },
+    {
+      image: "/1.webp",
+      subtitle: "Adventure Awaits",
+      title: "Beauty of Sri Lanka's Hidden Gems",
+      text: "From scenic beaches to misty mountains, your next adventure begins here.",
+      buttonText: "Plan Your Journey",
+    },
+    {
+      image: "/10.jpg",
+      subtitle: "Flavors & Journeys",
+      title: "Explore Sri Lanka Through Its Food & Traditions",
+      text: "Embark on a journey where every bite tells a story, and every destination reveals the heart of Sri Lankan culture.",
+      buttonText: "Travel & Taste",
+    },
+    {
+      image: "/46.webp",
+      subtitle: "Vibrant & Lively",
+      title: "Savor the Essence of Sri Lankan Spices & Tea",
+      text: "Indulge in the rich aromas of world-famous Ceylon tea and spices grown in Sri Lanka’s lush landscapes.",
+      buttonText: "Taste the Tradition",
+    },
+    {
+      image: "/12.jpg",
+      subtitle: "Exotic Flavors",
+      title: "Embrace Sri Lanka’s Rich Cultural Tapestry",
+      text: "From ancient dance forms to local crafts, Sri Lanka’s traditions will captivate your heart.",
+      buttonText: "Experience Culture",
+    },
+  ];
+
+  const nextSlide = useCallback(() => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setTimeout(() => setIsAnimating(false), 1000);
+    }
+  }, [isAnimating, slides.length]);
+
+  const prevSlide = useCallback(() => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      setTimeout(() => setIsAnimating(false), 1000);
+    }
+  }, [isAnimating, slides.length]);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
-    <section  className="max-container padding-container flex flex-col gap-20 py-10 pb-32 md:gap-28 lg:py-20 xl:flex-row">
-      <div className="hero-map" />
-
-      <div className="relative z-20 flex flex-1 flex-col xl:w-1/2">
-        <Image 
-          src="/camp.svg"
-          alt="camp"
-          width={50}
-          height={50}
-          className="absolute left-[-5px] top-[-30px] w-10 lg:w-[50px]"
-        />
-        <h1 className="bold-52 lg:bold-88">Knuckles Camp Area</h1>
-        <p className="regular-16 mt-6 text-gray-30 xl:max-w-[520px]">
-          We want to be on each of your journeys seeking the satisfaction of seeing the incorruptible beauty of nature. We can help you on an adventure around the world in just one app
-        </p>
-
-        <div className="my-11 flex flex-wrap gap-5">
-          <div className="flex items-center gap-2">
-            {Array(5).fill(1).map((_, index) => (
-              <Image 
-                src="/star.svg"
-                key={index}
-                alt="star"
-                width={24}
-                height={24}
+    <section className="relative h-screen w-full overflow-hidden font-dm-sans">
+      <ul className="h-full w-full">
+        {slides.map((slide, index) => (
+          <li
+            key={index}
+            className={`absolute top-0 left-0 w-full h-full transition-all duration-1000 ease-in-out
+              ${currentSlide === index ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"}`}
+          >
+            <div className="relative w-full h-full">
+              {/* Image with Smooth Zoom Effect */}
+              <img
+                src={slide.image}
+                alt=""
+                className={`w-full h-full object-cover transition-transform duration-[3000ms] ease-in-out ${
+                  currentSlide === index ? "scale-105" : "scale-100"
+                }`}
               />
-            ))}
-          </div>
+              <div className="absolute inset-0 bg-black/40 flex items-center text-xs justify-center">
+                <div className="text-center text-white px-4 max-w-6xl mx-auto">
+                  <p
+                    style={{ letterSpacing: "0.5em" }}
+                    className={`lg:text-sm mb-4 transform transition-all duration-400 delay-100
+                    ${currentSlide === index ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+                  >
+                    {slide.subtitle}
+                  </p>
+                  <h1
+                    className={`lg:text-5xl md:text-6xl mb-8 font-meduim transform transition-all duration-400 delay-100
+                    ${currentSlide === index ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+                  >
+                    {slide.title}
+                  </h1>
 
-          <p className="bold-16 lg:bold-20 text-blue-70">
-            198k
-            <span className="regular-16 lg:regular-20 ml-1">Excellent Reviews</span>
-          </p>
-        </div>
-
-        <div className="flex flex-col w-full gap-3 sm:flex-row">
-          <Button 
-            type="button" 
-            title="Download App" 
-            variant="btn_green" 
-          />
-          <Button 
-            type="button" 
-            title="How we work?" 
-            icon="/play.svg"
-            variant="btn_white_text" 
-          />
-        </div>
-      </div>
-
-      <div className="relative flex flex-1 items-start">
-        <div className="relative z-20 flex w-[268px] flex-col gap-8 rounded-3xl bg-green-90 px-7 py-8">
-
-           <div className="flex flex-col">
-            <div className="flexBetween">
-              <p className="regular-16 text-gray-20">Location</p>
-              <Image src="/close.svg" alt="close" width={24} height={24} />
+                  <p
+                    style={{ letterSpacing: "0.2em" }}
+                    className={`lg:text-xl mb-8 transform transition-all duration-400 delay-100
+                    ${currentSlide === index ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"}`}
+                  >
+                    {slide.text}
+                  </p>
+                  <button
+                    className={`relative overflow-hidden group bg-transparent text-white border border-white px-8 py-2 uppercase  
+                    transform transition-all duration-700 delay-900 text-xl
+                    ${currentSlide === index ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+                  >
+                    <span className="relative z-10 block group-hover:-translate-y-full transition-transform duration-300">
+                      {slide.buttonText}
+                    </span>
+                    <span className="absolute inset-0 z-0 block -translate-y-full group-hover:translate-y-0 
+                                      bg-white text-black transition-transform duration-300 flex items-center justify-center">
+                      {slide.buttonText}
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <p className="bold-20 text-white">Riverston</p>
-          </div>
+          </li>
+        ))}
+      </ul>
 
-          <div className="flexBetween">
-            <div className="flex flex-col">
-              <p className="regular-16 block text-gray-20">Distance</p>
-              <p className="bold-20 text-white">173.28 mi</p>
-            </div>
-            <div className="flex flex-col">
-              <p className="regular-16 block text-gray-20">Elevation</p>
-              <p className="bold-20 text-white">2.040 km</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Left Button */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center
+          bg-white/20 hover:bg-white/40 rounded-full transition-all duration-300"
+        disabled={isAnimating}
+      >
+        <ChevronLeft className="w-6 h-6 text-white" />
+      </button>
+
+      {/* Right Button */}
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center
+          bg-white/20 hover:bg-white/40 rounded-full transition-all duration-300"
+        disabled={isAnimating}
+      >
+        <ChevronRight className="w-6 h-6 text-white" />
+      </button>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default HeroSlider;

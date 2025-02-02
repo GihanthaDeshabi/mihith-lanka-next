@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,6 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        forum: ['Forum', 'cursive'],
+        'dm-sans': ['DM Sans', 'sans-serif'],
+      },
       colors: {
         green: {
           50: '#30AF5B',

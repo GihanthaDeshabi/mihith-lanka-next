@@ -1,89 +1,104 @@
-import { PEOPLE_URL } from "@/constants";
-import Image from "next/image";
+"use client";
+import { useState } from 'react';
 
-interface CampProps {
-  backgroundImage: string;
+interface TravelCardProps {
   title: string;
-  subtitle: string;
-  peopleJoined: string;
+  image: string;
+  href: string;
 }
 
-const CampSite = ({ backgroundImage, title, subtitle, peopleJoined }: CampProps) => {
-  return (
-    <div className={`h-full w-full min-w-[1100px] ${backgroundImage} bg-cover bg-no-repeat lg:rounded-r-5xl 2xl:rounded-5xl`}>
-     <div className="flex h-full flex-col items-start justify-between p-6 lg:px-20 lg:py-10">
-      <div className="flexCenter gap-4">
-        <div className="rounded-full bg-green-50 p-4">
-          <Image
-            src="/folded-map.svg"
-            alt="map"
-            width={28}
-            height={28}
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <h4 className="bold-18 text-white">{title}</h4>
-          <p className="regular-14 text-white">{subtitle}</p>
-        </div>
-      </div>
+const TravelCard = ({ title, image, href }: TravelCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-      <div className="flexCenter gap-6">
-        <span className="flex -space-x-4 overflow-hidden">
-          {PEOPLE_URL.map((url) => (
-            <Image 
-              className="inline-block h-10 w-10 rounded-full"
-              src={url}
-              key={url}
-              alt="person"
-              width={52}
-              height={52}
+  return (
+    <div 
+      className="relative  overflow-hidden rounded-lg h-[300px] md:h-[400px] cursor-pointer transform transition-all duration-500 hover:shadow-xl"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <a href={href} className="block h-full w-full">
+        <div className="h-full w-full relative">
+          <img
+            src={image}
+            alt={title}
+            className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            }`}
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-30 transition-opacity duration-500" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className={`px-6 py-2 border-2 border-white text-white text-lg md:text-xl font-semibold tracking-wider transition-transform duration-500 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            }`}>
+              {title}
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  );
+};
+
+const TravelExperience = () => {
+  const experiences = [
+    {
+      title: 'CULTURE',
+      image: './1.webp',
+      href: '/experiences/culture'
+    },
+    {
+      title: 'WILDLIFE',
+      image: '/9.jpg',
+      href: '/experiences/wildlife'
+    },
+    {
+      title: 'BEACH',
+      image: '/21.jpg',
+      href: '/experiences/beach'
+    },
+    {
+      title: 'FAMILY',
+      image: './44.webp',
+      href: '/experiences/family'
+    },
+    {
+      title: 'ROMANCE',
+      image: '/9.jpg',
+      href: '/experiences/romance'
+    },
+    {
+      title: 'SPECIAL',
+      image: '/9.jpg',
+      href: '/experiences/special'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white px-4 py-8 md:px-8 lg:px-16">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-800 text-center mb-6 mt-12">
+          Sri Lankan Travel Experience
+        </h1>
+        
+        <p className="text-center text-gray-600 mb-20 max-w-2xl mx-auto px-4">
+          Mihith Lanka Tours & travels offers a range of holidays according to your
+          travel preference. Take a luxury travel holiday, a budget holiday or a
+          tailormade, customised itinerary made to suit your requirements.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {experiences.map((experience) => (
+            <TravelCard
+              key={experience.title}
+              title={experience.title}
+              image={experience.image}
+              href={experience.href}
             />
           ))}
-        </span>
-        <p className="bold-16 md:bold-20 text-white">{peopleJoined}</p>
-      </div>
-     </div>
-    </div>
-  )
-}
-
-const Camp = () => {
-  return (
-    <section className="2xl:max-container relative flex flex-col py-10 lg:mb-10 lg:py-20 xl:mb-20">
-      <div className="hide-scrollbar flex h-[340px] w-full items-start justify-start gap-8 overflow-x-auto lg:h-[400px] xl:h-[640px]">
-        <CampSite 
-          backgroundImage="bg-bg-img-1"
-          title="Knuckles"
-          subtitle="Ella, Sri Lanka"
-          peopleJoined="50+ Joined"
-        />
-        <CampSite 
-          backgroundImage="bg-bg-img-2"
-          title="Mountain View Camp"
-          subtitle="Somewhere in the Wilderness"
-          peopleJoined="50+ Joined"
-        />
-      </div>
-
-      <div className="flexEnd mt-10 px-6 lg:-mt-60 lg:mr-6">
-        <div className="bg-green-50 p-8 lg:max-w-[500px] xl:max-w-[734px] xl:rounded-5xl xl:px-16 xl:py-20 relative w-full overflow-hidden rounded-3xl">
-          <h2 className="regular-24 md:regular-32 2xl:regular-64 capitalize text-white">
-            <strong>Feeling Lost</strong> And Not Knowing The Way?
-          </h2>
-          <p className="regular-14 xl:regular-16 mt-5 text-white">
-            Starting from the anxiety of the climbers when visiting a new climbing location, the possibility of getting lost is very large. That's why we are here for those of you who want to start an adventure
-          </p>
-          <Image 
-            src="/quote.svg"
-            alt="camp-2"
-            width={186}
-            height={219}
-            className="camp-quote"
-          />
         </div>
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
 
-export default Camp
+export default TravelExperience;

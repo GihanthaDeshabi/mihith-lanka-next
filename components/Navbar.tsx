@@ -1,41 +1,74 @@
-import { NAV_LINKS } from "@/constants"
-import Image from "next/image"
-import Link from "next/link"
-import Button from "./Button"
+"use client";
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
+    { title: 'Home', href: '#' },
+    { title: 'About', href: '#about' },
+    { title: 'Gallery', href: '#gallery' },
+    { title: 'Packages', href: '#packages' },
+    { title: 'Book Tour', href: '#booking' },
+    { title: 'Testimonials', href: '#testimonials' }
+  ];
+
   return (
-    <nav className="flexBetween max-container padding-container relative z-30 py-5">
-      <Link href="/">
-        <Image src="/hilink-logo.svg" alt="logo" width={74} height={29} />
-      </Link>
+    <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <h1 className="text-4xl font-bold text-black font-dm-sans sm: text-xs md:text-xl ">Mihith Lanka </h1>
+          </div>
 
-      <ul className="hidden h-full gap-12 lg:flex">
-        {NAV_LINKS.map((link) => (
-          <Link href={link.href} key={link.key} className="regular-16 text-gray-50 flexCenter cursor-pointer pb-1.5 transition-all hover:font-bold">
-            {link.label}
-          </Link>
-        ))}
-      </ul>
+          {/* Desktop Menu */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-8  text-xl md: font-dm-sans">
+              {menuItems.map((item) => (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  className="text-gray-600 hover:text-black transition-colors duration-200"
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
 
-      <div className="lg:flexCenter hidden">
-        <Button 
-          type="button"
-          title="Login"
-          icon="/user.svg"
-          variant="btn_dark_green"
-        />
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-black focus:outline-none"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {menuItems.map((item) => (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  className="block px-3 py-2 text-gray-600 hover:text-black transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-
-      <Image 
-        src="menu.svg"
-        alt="menu"
-        width={32}
-        height={32}
-        className="inline-block cursor-pointer lg:hidden"
-      />
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
